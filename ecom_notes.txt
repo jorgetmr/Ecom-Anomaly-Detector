@@ -1,0 +1,4 @@
+docker: 
+docker compose up -d
+docker compose down (stops containers, they can easily restart later)
+next day, run "docker compose up -d" again (everything comes back up, same configuration)
