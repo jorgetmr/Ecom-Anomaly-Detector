@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS events(
-    ts TIMESTAMPZ NOT NULL, 
+    ts TIMESTAMPTZ NOT NULL, 
     stream TEXT NOT NULL, 
     key TEXT NOT NULL, 
     value DOUBLE PRECISION NOT NULL, 
@@ -7,13 +7,13 @@ CREATE TABLE IF NOT EXISTS events(
 );
 
 CREATE TABLE IF NOT EXISTS anomalies(
-    ts TIMESTAMPZ NOT NULL, 
+    ts TIMESTAMPTZ NOT NULL, 
     stream TEXT NOT NULL, 
     key TEXT NOT NULL, 
     score DOUBLE PRECISION NOT NULL, 
     severity TEXT NOT NULL, 
     method TEXT NOT NULL, 
-    window TEXT, 
+    win TEXT, 
     details JSONB
 );
 

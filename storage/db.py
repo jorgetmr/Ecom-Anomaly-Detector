@@ -12,4 +12,7 @@ engine = create_async_engine(DATABASE_URL, future=True)
 async def init_db():
     sql = open("storage\\schema.sql").read()
     async with engine.begin() as conn:
-        await conn.execute(text(sql))
+        for statement in sql.split(";"):
+            sql_statement = statement.strip()
+            if sql_statement:
+                await conn.execute(text(sql_statement))

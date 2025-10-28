@@ -1,4 +1,64 @@
 docker: 
+
 docker compose up -d
 docker compose down (stops containers, they can easily restart later)
 next day, run "docker compose up -d" again (everything comes back up, same configuration)
+
+docker volume ls   (list of docker volumes)
+docker volume inspect db_data
+docker volume rm db_data
+
+If I change the schema.sql or do something to the docker, I need to rerun in the terminal;
+python -c "import asyncio, storage.db as d; asyncio.run(d.init_db())"
+
+
+Run each time you open VScode; 
+celery -A orchestration.celery_app.app worker -B --loglevel=INFO
+
+(When I add celery to the docker, this will auto-restart each time I open vscode and turn on the docker)
+
+---------------------------------------------------------------------------------------------------------------
+Development loop (Preserve Order):
+
+TERMINAL 1:
+
+docker compose up -d (db + redis)
+
+python ingestion\\synthetic_generator.py (make data once)
+
+python ingestion\\ingestion_to_db.py (replay "live")
+
+celery -A orchestration.celery_app:app worker --pool=solo --loglevel=INFO --autoreload
+
+TERMINAL 2: 
+celery -A orchestration.celery_app:app beat --loglevel=INFO
+
+TERMINAL 3:
+python main.py (API)
+
+TERMINAL 4:
+streamlit run dashboard\\app.py (UI)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+...
